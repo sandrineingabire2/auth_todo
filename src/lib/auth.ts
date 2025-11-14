@@ -83,5 +83,10 @@ export function onAuthChange(cb: AuthListener) {
   try {
     cb(getCurrentUser());
   } catch {}
-  return () => listeners.delete(cb);
+  return () => {
+    // Ensure cleanup returns void, not boolean
+    try {
+      listeners.delete(cb);
+    } catch {}
+  };
 }
